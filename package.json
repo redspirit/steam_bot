@@ -1,0 +1,24 @@
+{
+  "name": "steam_bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redspirit/steam_bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/redspirit/steam_bot/issues"
+  },
+  "homepage": "https://github.com/redspirit/steam_bot#readme",
+  "dependencies": {
+    "mongoose": "^4.9.8",
+    "request": "^2.81.0",
+    "underscore": "^1.8.3"
+  }
+}

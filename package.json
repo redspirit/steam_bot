@@ -17,8 +17,11 @@
   },
   "homepage": "https://github.com/redspirit/steam_bot#readme",
   "dependencies": {
+    "cheerio": "^0.22.0",
     "mongoose": "^4.9.8",
     "request": "^2.81.0",
-    "underscore": "^1.8.3"
+    "request-promise": "^4.2.1",
+    "underscore": "^1.8.3",
+    "underscore.string": "^3.3.4"
   }
 }

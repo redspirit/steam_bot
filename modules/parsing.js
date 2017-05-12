@@ -5,18 +5,23 @@
 var cheerio = require('cheerio');
 var request = require('request-promise');
 var s = require("underscore.string");
+var _ = require("underscore");
+var async = require("async");
 var querystring = require('querystring');
+var deferred = require('deferred');
 
 
-var parsePage = function(q, page){
+var parsePage = function(q){
 
-    var query = querystring.stringify({
+    _.defaults(q, {
         category1: 998,
         os: 'win',
         supportedlang: 'russian',
         specials: 1,
-        page: page
+        page: 1
     });
+
+    var query = querystring.stringify(q);
 
     var options = {
         uri: 'http://store.steampowered.com/search/results?' + query,
@@ -24,6 +29,8 @@ var parsePage = function(q, page){
             return cheerio.load(body);
         }
     };
+
+    console.log("URL", options.uri);
 
     return request(options)
         .then(function ($) {
@@ -51,11 +58,16 @@ var parsePage = function(q, page){
 
             });
 
-            var lastPage = $('.search_pagination_right').children().last().prev().text();
+
+            var pagesList = s($('.search_pagination_right').text() ).clean().value().split(' ').filter(function(item){
+                return item != '>';
+            }).map(function(item){
+                return parseInt(item);
+            });
 
             return {
                 items: list,
-                pages: lastPage
+                pages: _.last(pagesList)
             };
 
         })
@@ -66,6 +78,44 @@ var parsePage = function(q, page){
 };
 
 var parseAll = function(q){
+
+    var def = deferred();
+    var first = parsePage({page:1});
+    first.then(function(result){
+
+        if(result.pages == 1)
+            return def.resolve(result);
+
+        var firstItems = result.items;
+
+        var tasks = _.map(_.range(2, result.pages + 1), function(page){
+            return function(cb){
+                q.page = page;
+                parsePage(q).then(function(res){
+                    cb(null, res.items);
+                }, function(err){
+                    cb(err);
+                });
+            };
+        });
+
+        async.parallelLimit(tasks, 3, function(err, results){
+
+            if(err)
+                return def.reject(err);
+            
+            var items = firstItems;
+            _.each(results, function(list){
+                items = items.concat(list);
+            });
+
+            return def.resolve(items);
+
+        });
+
+    });
+
+    return def.promise;
 
 };
 

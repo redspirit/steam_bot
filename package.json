@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/redspirit/steam_bot#readme",
   "dependencies": {
+    "async": "^2.4.0",
     "cheerio": "^0.22.0",
+    "deferred": "^0.7.6",
     "mongoose": "^4.9.8",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",

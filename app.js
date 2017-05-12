@@ -5,7 +5,7 @@
 var parsing = require('./modules/parsing.js');
 
 
-parsing.parsePage({}, 1).then(function(result){
+parsing.parseAll({}).then(function(result){
 
     console.log("RES", result);
 

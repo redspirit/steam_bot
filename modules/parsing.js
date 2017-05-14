@@ -17,6 +17,7 @@ var parsePage = function(q){
         category1: 998,
         os: 'win',
         supportedlang: 'russian',
+        sort_by: 'Price_DESC',
         specials: 1,
         page: 1
     });
@@ -51,7 +52,7 @@ var parsePage = function(q){
                     id: id,
                     title: title,
                     img: s(img).replaceAll("capsule_sm_120", "header").value(),
-                    discount: discount,
+                    discount: -parseInt(discount),
                     priceOld: priceOld,
                     price: s(price).trim().value()
                 });
@@ -103,13 +104,15 @@ var parseAll = function(q){
 
             if(err)
                 return def.reject(err);
-            
+
             var items = firstItems;
             _.each(results, function(list){
                 items = items.concat(list);
             });
 
-            return def.resolve(items);
+            return def.resolve({
+                items: items
+            });
 
         });
 

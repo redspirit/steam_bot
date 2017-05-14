@@ -1,0 +1,13 @@
+{
+  "http": {
+    "port": 9090
+  },
+  "mongo": {
+    "host": "localhost",
+    "port": 27017,
+    "database": "steam_bot",
+    "autoIndex": false,
+    "user": "",
+    "password": ""
+  }
+}

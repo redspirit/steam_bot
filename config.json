@@ -3,12 +3,18 @@
     "port": 8445,
     "token": "394898625:AAFrAKljAVD-SL_1Q0ToZnPeJmDHWglx0HY"
   },
-  "mongo": {
+  "mongo_local": {
     "host": "localhost",
     "port": 27017,
     "database": "steam_bot",
     "autoIndex": false,
-    "user": "",
-    "password": ""
+    "user": ""
+  },
+  "mongo_release": {
+    "host": "localhost",
+    "port": 27017,
+    "database": "steam_bot",
+    "autoIndex": true,
+    "user": "steambot"
   }
 }

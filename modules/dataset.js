@@ -2,14 +2,16 @@
  * Created by espri on 12.05.2017.
  */
 
+var argv = require('minimist')(process.argv.slice(2));
 var mongoose = require('mongoose');
 var def = require('deferred')();
-var config = require('./../config.json').mongo;
+var configAll = require('./../config.json');
+var config = argv.local ? configAll.mongo_local : configAll.mongo_release;
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://' + config.host + ':' + config.port + '/' + config.database + '?auto_reconnect', {
-    //user: config.user,
-    //pass: config.password,
+    user: config.user,
+    pass: argv.db_password,
     autoIndex: config.autoIndex
 });
 

@@ -13,10 +13,7 @@ var emitter = ee();
 var mongoose = require('mongoose');
 
 var options = {
-    polling: true,
-    //webHook: {
-    //    port: config.port
-    //}
+    polling: true
 };
 
 module.exports.start = function(){

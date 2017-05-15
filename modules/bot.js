@@ -29,6 +29,8 @@ module.exports.start = function(){
     var User = mongoose.model('user');
     var Game = mongoose.model('game');
 
+    console.log("config.token, options", config.token, options);
+
     var bot = new TelegramBot(config.token, options);
     bot.getMe().then(function (me) {
         console.log('Hi my name is %s!', me.username);

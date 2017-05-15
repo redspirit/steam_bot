@@ -8,7 +8,7 @@ var emitter = ee();
 
 var start = function(callback){
 
-    callback();
+    //callback();
 
     return new CronJob({
         cronTime: '0 5 * * * *',    // каждый час на пятой минуте

@@ -17,7 +17,7 @@ var parsePage = function(q){
         category1: 998,
         os: 'win',
         supportedlang: 'russian',
-        sort_by: 'Price_DESC',
+        sort_by: 'Name_ASC',
         specials: 1,
         page: 1
     });

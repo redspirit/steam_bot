@@ -123,6 +123,25 @@ GameSchema.statics.setDeletedGames = function (list) {
 
 };
 
+GameSchema.statics.mostProfitable = function (limit) {
+
+    return this.find({is_active: true}).sort('-discount').limit(limit || 10);
+
+};
+
+GameSchema.statics.mostExpensive = function (limit) {
+
+    return this.find({is_active: true}).sort('-price').limit(limit || 10);
+
+};
+
+GameSchema.statics.cheapest = function (limit) {
+
+    return this.find({is_active: true}).sort('price').limit(limit || 10);
+
+};
+
+
 
 GameSchema.methods.uploadPoster = function () {
     return uploader.load(this.image, this.game_id);

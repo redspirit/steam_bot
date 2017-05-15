@@ -23,9 +23,15 @@ UserSchema.statics.saveUser = function (from) {
     return user.save();
 };
 
+UserSchema.statics.removeUser = function (from) {
+    console.log("removeUser", from.id);
+    return this.remove({id: from.id});
+};
+
 UserSchema.statics.byId = function (id) {
     return this.findOne({id: id});
 };
+
 
 
 module.exports = UserSchema;

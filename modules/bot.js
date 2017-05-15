@@ -18,13 +18,16 @@ var options = {
 
 module.exports.start = function(){
 
+    var User = mongoose.model('user');
+    var Game = mongoose.model('game');
+
+    module.exports.User = User;
+    module.exports.Game = Game;
+
     if(argv.local) {
         console.log('Запущено в локальном режиме, бот не будет работать');
         return {};
     }
-
-    var User = mongoose.model('user');
-    var Game = mongoose.model('game');
 
     console.log("config.token, options", config.token, options);
 
@@ -33,8 +36,7 @@ module.exports.start = function(){
         console.log('Hi my name is %s!', me.username);
     });
     module.exports.bot = bot;
-    module.exports.User = User;
-    module.exports.Game = Game;
+
 
     bot.on('message', function (msg) {
         //var chatId = msg.chat.id;

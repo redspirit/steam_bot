@@ -28,7 +28,7 @@ var GameSchema = new Schema({
     versionKey: false
 });
 
-GameSchema.statics.fill2 = function (list) {
+GameSchema.statics.fill = function (list) {
 
     console.log("Total", list.length);
 
@@ -88,76 +88,6 @@ GameSchema.statics.fill2 = function (list) {
 
     });
 
-
-
-    return def.promise;
-
-};
-
-
-GameSchema.statics.fill = function (list) {
-    var Game = this;
-    var def = deferred();
-    var result = [];
-
-    Game.find({}).then(function(games){
-
-        _.each(list, function(item){
-            var finded = _.findWhere(games, {game_id: item.id});
-            if(finded) {
-                if(!finded.is_active) {
-                    finded.is_active = true;
-                    result.push(finded);
-                }
-            } else {
-                // если этой игры в базе нет - смело добавляем
-
-                var game = new Game();
-                game.game_id = item.id;
-                game.title = item.title;
-                game.discount = item.discount;
-                game.price = parseInt(item.price);
-                game.priceOld = parseInt(item.priceOld);
-                game.image = item.img;
-                game.is_active = true;
-                game.is_bundle = item.id.indexOf(',') > 0;
-                //game.save();
-                result.push(game);
-
-            }
-
-        });
-
-        // отмечаем те игры, которые пропали из списка скидок
-        Game.setDeletedGames(list).then(function(deletedGames){
-
-            if(result.length == 0)
-                return def.resolve({
-                    deleted: deletedGames,
-                    news: []
-                });
-
-            var tasks = _.map(result, function(game){
-                return function(cb){
-                    console.log("Saved", game.title);
-                    return game.save(cb);
-                }
-            });
-
-            async.parallelLimit(tasks, 5, function(err, savingResult){
-                if(err)
-                    return def.reject(err);
-                def.resolve({
-                    deleted: deletedGames,
-                    news: result
-                });
-            });
-
-        });
-
-    });
-
-    //console.log("OK!");
     return def.promise;
 
 };

@@ -2,60 +2,32 @@
  * Created by espri on 11.05.2017.
  */
 
-var parsing = require('./modules/parsing.js');
-var dataset = require('./modules/dataset.js');
-var mongoose = require('mongoose');
+var app = require('./modules/bot.js');
+var scheduler = require('./modules/scheduler.js');
 
 
-var languages = [
-    'russian',
-    'bulgarian',
-    'czech',
-    'danish',
-    'dutch',
-    'english',
-    'finnish',
-    'french',
-    'greek',
-    'german',
-    'hungarian',
-    'italian',
-    'japanese',
-    'koreana',
-    'norwegian',
-    'polish',
-    'portuguese',
-    'brazilian',
-    'romanian',
-    'schinese',
-    'spanish',
-    'swedish',
-    'tchinese',
-    'thai',
-    'turkish',
-    'ukrainian'
-];
+app.event.on('/start', function(msg, user, params){
+
+    //msg.send(':flag-ru: ONLY RUSSIAN LANGUAGE :flag-ru:\n' +
+    //    'Привет, ' + msg.from.first_name + '!\n' +
+    //    'Теперь ты можешь добавлять уведомления на любое время. Для понимания происходящего воспользуйся справкой /help\n' +
+    //    '❗ ВАЖНО: если у тебя не московский часовой пояс, то укажи его через команду /zone',
+    //    {reply_markup: mailListOpts});
+    //
+    //db.user.saveUser(msg.from, function(err, data){
+    //    if(err)
+    //        return false;
+    //    console.log("Подключился пользователь", data.first_name);
+    //})
 
 
-// todo
-// доставать цену в долларах
-// проденты получать числом
 
-dataset.then(function(){
+});
 
-    var Game = mongoose.model('game');
 
-    parsing.parseAll({}).then(function(result){
 
-        //result.items.splice(3, 2);
+scheduler.on('new', function(games){
 
-        Game.fill2(result.items).then(function(newGames){
-
-            //console.log("newGames", newGames);
-
-        });
-        //console.log("RES", result);
-
-    });
+    console.log("EVENT", games);
 
 });

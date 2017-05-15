@@ -1,6 +1,7 @@
 {
-  "http": {
-    "port": 9090
+  "bot": {
+    "port": 8445,
+    "token": "394898625:AAFrAKljAVD-SL_1Q0ToZnPeJmDHWglx0HY"
   },
   "mongo": {
     "host": "localhost",

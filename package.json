@@ -19,8 +19,12 @@
   "dependencies": {
     "async": "^2.4.0",
     "cheerio": "^0.22.0",
+    "cron": "^1.2.1",
     "deferred": "^0.7.6",
+    "event-emitter": "^0.3.5",
     "mongoose": "^4.9.8",
+    "node-emoji": "^1.5.1",
+    "node-telegram-bot-api": "^0.27.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "underscore": "^1.8.3",

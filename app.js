@@ -5,29 +5,28 @@
 var app = require('./modules/bot.js');
 var scheduler = require('./modules/scheduler.js');
 
-
 app.event.on('/start', function(msg, user, params){
 
-    //msg.send(':flag-ru: ONLY RUSSIAN LANGUAGE :flag-ru:\n' +
-    //    'Привет, ' + msg.from.first_name + '!\n' +
-    //    'Теперь ты можешь добавлять уведомления на любое время. Для понимания происходящего воспользуйся справкой /help\n' +
-    //    '❗ ВАЖНО: если у тебя не московский часовой пояс, то укажи его через команду /zone',
-    //    {reply_markup: mailListOpts});
-    //
-    //db.user.saveUser(msg.from, function(err, data){
-    //    if(err)
-    //        return false;
-    //    console.log("Подключился пользователь", data.first_name);
-    //})
+    msg.send('STEAM DISCOUNTS\n' +
+        'Hello, ' + msg.from.first_name + '!\n' +
+        'The bot is under construction. Once the bot is ready, it will notify you');
 
-
+    app.User.saveUser(msg.from, function(data){
+        if(err)
+            return false;
+        console.log("Новый пользователь:", data.first_name);
+    })
 
 });
-
-
 
 scheduler.on('new', function(games){
 
     console.log("EVENT", games);
+
+});
+
+scheduler.on('db', function(){
+
+    app.start();
 
 });

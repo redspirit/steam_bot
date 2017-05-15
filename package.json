@@ -22,6 +22,7 @@
     "cron": "^1.2.1",
     "deferred": "^0.7.6",
     "event-emitter": "^0.3.5",
+    "minimist": "^1.2.0",
     "mongoose": "^4.9.8",
     "node-emoji": "^1.5.1",
     "node-telegram-bot-api": "^0.27.1",

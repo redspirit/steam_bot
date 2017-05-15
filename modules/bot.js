@@ -2,6 +2,7 @@
  * Created by espri on 27.09.2016.
  */
 
+var argv = require('minimist')(process.argv.slice(2));
 var TelegramBot = require('node-telegram-bot-api');
 var ee = require('event-emitter');
 var hasListeners = require('event-emitter/has-listeners');
@@ -20,13 +21,21 @@ var options = {
 
 module.exports.start = function(){
 
+    if(argv.local) {
+        console.log('Запущено в локальном режиме, бот не будет работать');
+        return {};
+    }
+
     var User = mongoose.model('user');
+    var Game = mongoose.model('game');
 
     var bot = new TelegramBot(config.token, options);
     bot.getMe().then(function (me) {
         console.log('Hi my name is %s!', me.username);
     });
     module.exports.bot = bot;
+    module.exports.User = User;
+    module.exports.Game = Game;
 
     bot.on('message', function (msg) {
         //var chatId = msg.chat.id;
@@ -44,7 +53,6 @@ module.exports.start = function(){
         //    date: 1474986291,
         //    text: '/go hello',
         //    entities: [ { type: 'bot_command', offset: 0, length: 3 } ] }
-
 
         var cmdParams = [];
         var cmd = msg.text ? msg.text.match(new RegExp("^\\/(\\w+)", 'i')) : '';
@@ -65,7 +73,8 @@ module.exports.start = function(){
             return bot.sendMessage(msg.chat.id, emoji.emojify(text), opt);
         };
 
-        User.findOne({id: msg.from.id},function(err, user){
+        User.byId(msg.from.id).then(function(user){
+
             if(!user && cmd != '/start')
                 return bot.sendMessage(msg.chat.id, 'Выполните /start для начала работы с ботом');
 

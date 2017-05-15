@@ -7,22 +7,25 @@ var _ = require('underscore');
 
 var Schema = mongoose.Schema;
 var UserSchema = new Schema({
-    id: {
-        type: Number
-    },
-    first_name: {
-        type: String
-    }
+    id: Number,
+    username: String,
+    first_name: String,
+    registered: Date
 }, {
     versionKey: false
 });
 
 
-UserSchema.statics.saveUser = function (userInfo, callback) {
-
+UserSchema.statics.saveUser = function (from) {
+    var User = this;
+    var user = new User(from);
+    user.registered = new Date();
+    return user.save();
 };
-UserSchema.methods.humanFormat = function (d, mode) {
 
+UserSchema.statics.byId = function (id) {
+    return this.findOne({id: id});
 };
+
 
 module.exports = UserSchema;

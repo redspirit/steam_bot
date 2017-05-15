@@ -37,6 +37,8 @@ dataset.then(function(){
 
     });
 
+    emitter.emit('db');
+
 });
 
 module.exports = emitter;

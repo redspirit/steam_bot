@@ -14,9 +14,9 @@ var mongoose = require('mongoose');
 
 var options = {
     polling: true,
-    webHook: {
-        port: config.port
-    }
+    //webHook: {
+    //    port: config.port
+    //}
 };
 
 module.exports.start = function(){

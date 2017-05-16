@@ -55,6 +55,8 @@ module.exports.start = function(){
         //    text: '/go hello',
         //    entities: [ { type: 'bot_command', offset: 0, length: 3 } ] }
 
+        console.log("MSG", msg);
+
         var cmdParams = [];
         var cmd = msg.text ? msg.text.match(new RegExp("^\\/(\\w+)", 'i')) : '';
         if(cmd) {
@@ -76,8 +78,11 @@ module.exports.start = function(){
 
         User.byId(msg.from.id).then(function(user){
 
+
+            console.log("CMD", cmd);
+
             if(!user && cmd != '/start')
-                return bot.sendMessage(msg.chat.id, 'Выполните /start для начала работы с ботом');
+                return bot.sendMessage(msg.chat.id, 'Please, click /start');
 
             if(cmd)
                 emitter.emit(cmd, msg, user, cmdParams);

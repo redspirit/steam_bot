@@ -9,7 +9,8 @@ var scheduler = require('./modules/scheduler.js');
 app.event.on('/start', function(msg, user, params){
 
     msg.send('Hello, ' + msg.from.first_name + '!\n' +
-        'The bot is under construction. Once the bot is ready, it will notify you');
+        'The bot is under construction. Once the bot is ready, it will notify you.\n' +
+        'Use /help to get available commands');
 
     if(!user)
         app.User.saveUser(msg.from, function(data){

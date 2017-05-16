@@ -1,4 +1,5 @@
 
+var argv = require('minimist')(process.argv.slice(2));
 var CronJob = require('cron').CronJob;
 var parsing = require('./parsing.js');
 var dataset = require('./dataset.js');
@@ -8,7 +9,9 @@ var emitter = ee();
 
 var start = function(callback){
 
-    callback();
+    if(!argv.stop_first_grab) {
+        callback();
+    }
 
     return new CronJob({
         cronTime: '0 5 * * * *',    // каждый час на пятой минуте

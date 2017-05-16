@@ -87,4 +87,6 @@ scheduler.on('db', function(){
 
     app.start();
 
+    app.User.sendToAll('HELLO');
+
 });

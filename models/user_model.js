@@ -4,6 +4,7 @@
 
 var mongoose = require('mongoose');
 var _ = require('underscore');
+var botApp = require('./../modules/bot.js');
 
 var Schema = mongoose.Schema;
 var UserSchema = new Schema({
@@ -24,13 +25,30 @@ UserSchema.statics.saveUser = function (from) {
 };
 
 UserSchema.statics.removeUser = function (from) {
-    console.log("removeUser", from.id);
-    return this.remove({id: from.id});
+    return this.remove({id: from.id}).then(function(a){
+        return a.result;
+    });
 };
 
 UserSchema.statics.byId = function (id) {
     return this.findOne({id: id});
 };
+
+UserSchema.statics.sendToAll = function (msg) {
+
+    console.log("call");
+
+    var bot = botApp.botInstance;
+
+    //console.log("bot", botApp);
+
+    console.log("bot.sendMessage", bot.sendMessage);
+
+    bot.sendMessage(107577068, msg);
+
+    //return this.findOne({id: id});
+};
+
 
 
 

@@ -78,9 +78,6 @@ module.exports.start = function(){
 
         User.byId(msg.from.id).then(function(user){
 
-
-            console.log("CMD", cmd);
-
             if(!user && cmd != '/start')
                 return bot.sendMessage(msg.chat.id, 'Please, click /start');
 

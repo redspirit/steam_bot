@@ -4,6 +4,7 @@
 
 var mongoose = require('mongoose');
 var _ = require('underscore');
+var emoji = require('node-emoji');
 var botApp = require('./../modules/bot.js');
 
 var Schema = mongoose.Schema;
@@ -34,22 +35,20 @@ UserSchema.statics.byId = function (id) {
     return this.findOne({id: id});
 };
 
-UserSchema.statics.sendToAll = function (msg) {
-
-    console.log("call");
-
-    var bot = botApp.botInstance;
-
-    //console.log("bot", botApp);
-
-    console.log("bot.sendMessage", bot.sendMessage);
-
-    bot.sendMessage(107577068, msg);
-
-    //return this.findOne({id: id});
+UserSchema.statics.sendToAll = function (text, options) {
+    this.find({}).then(function(users){
+        _.each(users, function(user){
+            user.sendMessage(text, options);
+        });
+    });
 };
 
+UserSchema.methods.sendMessage = function (text, options) {
+    var user = this;
+    var bot = botApp.botInstance;
+    return bot.sendMessage(user.id, emoji.emojify(text), options);
+};
 
+var Model = mongoose.model('user', UserSchema);
 
-
-module.exports = UserSchema;
+module.exports = Model;

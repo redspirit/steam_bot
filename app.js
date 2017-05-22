@@ -77,9 +77,19 @@ app.event.on('/cheapest', function(msg, user, params){
 });
 
 
+// todo форматировать подробную инфу о новой игре с изображением
+
 scheduler.on('new', function(games){
 
-    console.log("EVENT", games);
+    //console.log("EVENT", games);
+
+    var bot = app.botInstance;
+
+    _.each(games.added, function(game){
+
+        //bot.sendMessage(user.id, text, options);
+
+    });
 
 });
 
@@ -87,6 +97,20 @@ scheduler.on('db', function(){
 
     app.start();
 
-    app.User.sendToAll('HELLO');
+    //app.Game.findOne({game_id: 577690}).then(function(game){
+    //    game.getDetails().then(function(res){
+    //        console.log("OK RES", res);
+    //    });
+    //});
+
+    //var parsing = require('./modules/parsing.js');
+
+    //parsing.parseAll({}).then(function(res){
+    //    console.log("size", _.size(res.items));
+    //    console.log("hash", res.hash  );
+    //});
+
+    //parsing.getStableList({});
+
 
 });

@@ -25,8 +25,9 @@ db.on('error', function(e){
 db.once('open', function callback () {
     console.log('Связь с базой установлена');
 
-    mongoose.model('game', require('./../models/game_model.js'));
-    mongoose.model('user', require('./../models/user_model.js'));
+    require('./../models/game_model.js');
+    require('./../models/user_model.js');
+
     console.info('Модели добавлены');
 
     def.resolve();

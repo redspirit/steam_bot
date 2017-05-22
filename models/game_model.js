@@ -2,11 +2,14 @@
  * Created by espri on 12.05.2017.
  */
 
+var config = require('./../config.json');
 var mongoose = require('mongoose');
 var _ = require('underscore');
 var async = require('async');
 var deferred = require('deferred');
 var uploader = require('./../modules/uploader.js');
+var SteamApi = require('steam-api');
+var steam = new SteamApi.App(config.steam_key, 'us');
 
 var Schema = mongoose.Schema;
 var GameSchema = new Schema({
@@ -23,7 +26,11 @@ var GameSchema = new Schema({
     is_active: {
         type: Boolean,
         default: true
-    }
+    },
+    languages: [{
+        type: String
+    }],
+    description: String
 }, {
     versionKey: false
 });
@@ -36,6 +43,7 @@ GameSchema.statics.fill = function (list) {
     var def = deferred();
 
     var added = [];
+    var newDetailedGames = [];
 
     var tasks = _.map(list, function(item){
         return function(cb){
@@ -65,7 +73,7 @@ GameSchema.statics.fill = function (list) {
                     console.log("Added", game.title, '<'+game.game_id+'>');
                     game.save(cb);
                     game.uploadPoster();
-
+                    //newDetailedGames.push(game.getDetails());
                 }
             });
         }
@@ -78,6 +86,9 @@ GameSchema.statics.fill = function (list) {
         Game.setDeletedGames(list).then(function(deleted){
 
             console.log("Append", added.length);
+
+
+            console.log("newDetailedGames", newDetailedGames);
 
             def.resolve({
                 deleted: deleted,
@@ -142,9 +153,31 @@ GameSchema.statics.cheapest = function (limit) {
 };
 
 
-
 GameSchema.methods.uploadPoster = function () {
     return uploader.load(this.image, this.game_id);
 };
 
-module.exports = GameSchema;
+GameSchema.methods.getDetails = function () {
+
+    return steam.appDetails(this.game_id).then(function(result){
+
+        //console.log("result", result);
+
+        return new Model({
+            game_id: result.id,
+            title: result.name,
+            discount: result.price.discount_percent,
+            price: result.price.final,
+            priceOld: result.price.initial,
+            languages: result.supportedLanguages,
+            description: result.description
+        });
+
+    });
+
+    //return uploader.load(this.image, this.game_id);
+};
+
+var Model = mongoose.model('game', GameSchema);
+
+module.exports = Model;

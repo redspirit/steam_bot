@@ -29,7 +29,7 @@ dataset.then(function(){
 
     start(function(){
 
-        parsing.parseAll({}).then(function(result){
+        parsing.getStableList({}).then(function(result){
 
             //result.items.splice(3, 2);
             Game.fill(result.items).then(function(newGames){

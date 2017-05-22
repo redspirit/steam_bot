@@ -9,7 +9,7 @@ var _ = require("underscore");
 var async = require("async");
 var querystring = require('querystring');
 var deferred = require('deferred');
-
+var hash = require('object-hash');
 
 var parsePage = function(q){
 
@@ -68,7 +68,8 @@ var parsePage = function(q){
 
             return {
                 items: list,
-                pages: _.last(pagesList)
+                pages: _.last(pagesList),
+                hash: hash(_.pluck(list, 'id'))
             };
 
         })
@@ -111,7 +112,8 @@ var parseAll = function(q){
             });
 
             return def.resolve({
-                items: items
+                items: items,
+                hash: hash(_.pluck(items, 'id'))
             });
 
         });
@@ -122,5 +124,59 @@ var parseAll = function(q){
 
 };
 
+var getStableList = function(q) {
+
+    var def = deferred();
+    var tryes = 3;              // кол-во проб
+    var interval = 10;          // 60 sec между пробами
+
+    // получить указанное кол-во проб
+    // посчитать кол-во разных хешей
+    // взять хэш который встречается чаще всего
+    // вернуть список с этим хэшом
+
+
+    var tasks = _.map(_.range(tryes), function(){
+        return function(cb){
+            console.log("try");
+            parseAll(q).then(function(data){
+                setTimeout(function(){
+                    cb(null, data);
+                }, interval * 1000);
+            }, function(err){
+                cb(err);
+            });
+        }
+    });
+
+    async.series(tasks, function(err, results) {
+
+        if(err)
+            return def.reject(err);
+
+        var counts = _.countBy(results, 'hash');
+        var max = 0;
+        var betterHash = null;
+
+        _.each(counts, function(count, hash){
+            if(count > max) {
+                max = count;
+                betterHash = hash;
+            }
+        });
+
+        console.log("counts & hash", counts, betterHash);
+
+        var betterList = _.findWhere(results, {hash: betterHash});
+
+        def.resolve(betterList);
+
+    });
+
+    return def.promise;
+
+};
+
 module.exports.parsePage = parsePage;
 module.exports.parseAll = parseAll;
+module.exports.getStableList = getStableList;

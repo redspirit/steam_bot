@@ -3,6 +3,7 @@
     "port": 8445,
     "token": "394898625:AAFrAKljAVD-SL_1Q0ToZnPeJmDHWglx0HY"
   },
+  "steam_key": "2B85B2BBF7FBE3F1292B31C40FD7C19F",
   "mongo_local": {
     "host": "localhost",
     "port": 27017,

@@ -87,7 +87,11 @@ scheduler.on('new', function(games){
 
     _.each(games.added, function(game){
 
-        //bot.sendMessage(user.id, text, options);
+        //console.log(">", game);
+
+        bot.sendMessage(107577068, _.template("{{title}} \n" +
+            "Цена {{price}} руб, скидка {{discount}}% \n" +
+            "{{image}}")(game));
 
     });
 

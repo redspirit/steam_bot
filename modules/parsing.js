@@ -11,6 +11,10 @@ var querystring = require('querystring');
 var deferred = require('deferred');
 var hash = require('object-hash');
 
+_.templateSettings = {
+    interpolate: /\{\{(.+?)\}\}/g
+};
+
 var parsePage = function(q){
 
     _.defaults(q, {
@@ -127,7 +131,7 @@ var parseAll = function(q){
 var getStableList = function(q) {
 
     var def = deferred();
-    var tryes = 3;              // кол-во проб
+    var tryes = 5;              // кол-во проб
     var interval = 10;          // 60 sec между пробами
 
     // получить указанное кол-во проб

@@ -16,6 +16,6 @@
     "port": 27666,
     "database": "steam_bot",
     "autoIndex": true,
-    "user": "steambot"
+    "user": "root"
   }
 }
